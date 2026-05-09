@@ -1,0 +1,15 @@
+# Test 4: Resource Management (No Deadlock)
+# P0 (priority 1) grabs R[1] first and holds it while running.
+# P1 (priority 2) tries to grab R[1] -> blocked -> waits.
+# Once P0 releases R[1], P1 unblocks and continues.
+# P2 uses a different resource R[2] with no contention.
+#
+# Expected flow:
+# t=0:  P0 (pr=1) runs -> acquires R[1], runs 30 units, releases R[1], runs 10 more
+# t=40: P0 done. P1 gets R[1] (now free), runs 20 units, releases, runs 10 more
+# P2 runs independently with R[2] (no conflict with R[1])
+#
+# PID  ArrivalTime  Priority  Bursts
+0      0            1         CPU{R[1], 30, F[1], 10}
+1      0            2         CPU{R[1], 20, F[1], 10}
+2      0            2         CPU{R[2], 25, F[2]}

@@ -1,0 +1,17 @@
+# Test 6: Full Mixed Scenario
+# Covers: priority scheduling, round-robin, I/O, resource contention, AND deadlock
+#
+# P0 (pr=1): High priority. Grabs R[1], does CPU, does IO, comes back, releases R[1].
+# P1 (pr=1): Same priority as P0 -> RR. Grabs R[2] early, then waits for R[1] -> deadlock risk.
+# P2 (pr=2): Lower priority. Runs when P0/P1 are blocked or done.
+# P3 (pr=3): Lowest priority. Only gets CPU after everyone else finishes.
+#
+# Deadlock scenario between P0 and P1:
+#   P0 holds R[1] and (after IO) tries R[2] which P1 holds.
+#   P1 holds R[2] and tries R[1] which P0 holds -> DEADLOCK.
+#
+# PID  ArrivalTime  Priority  Bursts
+0      0            1         CPU{R[1], 20, F[1]} IO{15} CPU{R[2], 15, F[2]}
+1      0            1         CPU{R[2], 20, R[1], 10, F[1], F[2]}
+2      5            2         CPU{10} IO{10} CPU{10}
+3      0            3         CPU{20}

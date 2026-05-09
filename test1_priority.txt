@@ -1,0 +1,13 @@
+# Test 1: Basic Priority Scheduling
+# Lower priority number = runs first
+# Expected order: P2(priority 1) -> P0(priority 2) -> P1(priority 3)
+# P2 arrives later but has highest priority, so it preempts once it arrives
+#
+# Expected Gantt: [P0: 0-5][P2: 5-20][P0: 20-45][P1: 45-70]
+# P0 runs from 0 until P2 arrives at t=5, then P2 runs to completion,
+# then P0 resumes, then P1 runs last.
+#
+# PID  ArrivalTime  Priority  Bursts
+0      0            2         CPU{40}
+1      0            3         CPU{25}
+2      5            1         CPU{15}

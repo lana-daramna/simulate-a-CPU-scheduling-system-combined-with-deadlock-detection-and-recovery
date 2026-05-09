@@ -1,0 +1,14 @@
+# Test 2: Round Robin (same priority = 1, time_quantum = 5)
+# All 3 processes arrive at t=0 with equal priority -> Round Robin
+#
+# Expected Gantt (quantum=5):
+# [P0:0-5][P1:5-10][P2:10-15][P0:15-20][P1:20-25][P2:25-30]
+# [P0:30-35][P1:35-40][P0:40-45][P2:45-55]
+# P0: 15 units total -> finishes in 3 quanta
+# P1: 15 units total -> finishes in 3 quanta
+# P2: 25 units total -> finishes in 5 quanta
+#
+# PID  ArrivalTime  Priority  Bursts
+0      0            1         CPU{15}
+1      0            1         CPU{15}
+2      0            1         CPU{25}

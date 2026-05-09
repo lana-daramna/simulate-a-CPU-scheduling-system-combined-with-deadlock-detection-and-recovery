@@ -1,0 +1,17 @@
+# Test 3: I/O Bursts
+# P0 has priority 2 and does IO in the middle.
+# While P0 is doing IO, P1 (priority 2) gets CPU time.
+# P2 (priority 1) preempts everyone when it arrives at t=10.
+#
+# Expected flow:
+# t=0:  P0 (pr=2) starts CPU burst (10 units) -> t=10
+# t=10: P2 arrives (pr=1, higher priority) -> preempts
+# t=10: P2 runs CPU(20) -> t=30
+# t=10: P0 also finishes CPU and enters IO queue at t=10 for 20 units -> done at t=30
+# t=30: P0 back in ready queue; P1 also ready
+# P0 and P1 both priority 2, round-robin from t=30
+#
+# PID  ArrivalTime  Priority  Bursts
+0      0            2         CPU{10} IO{20} CPU{15}
+1      0            2         CPU{30}
+2      10           1         CPU{20}

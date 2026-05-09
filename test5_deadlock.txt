@@ -1,0 +1,15 @@
+# Test 5: Deadlock Detection and Recovery
+# Classic circular wait:
+#   P0 holds R[1], waits for R[2]
+#   P1 holds R[2], waits for R[1]  -> DEADLOCK
+#
+# Both processes have priority=1 -> Round Robin (quantum=5)
+# Timeline:
+#   Each process acquires its first resource during its first quantum slice,
+#   then alternates with the other via RR for 30 units total.
+#   After 30 units each, both try to grab the other's resource -> DEADLOCK.
+#   Deadlock detected -> one process terminated -> other completes.
+#
+# PID  ArrivalTime  Priority  Bursts
+0      0            1         CPU{R[1], 30, R[2], 10, F[2], F[1]}
+1      0            1         CPU{R[2], 30, R[1], 10, F[1], F[2]}
